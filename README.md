@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emir Pöğe</title>
+
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/869/869869.png" type="image/png" />
+  
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      scroll-behavior: smooth;
+    }
+    body.light-mode {
+      background-color: #fff;
+      color: #000;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #1e90ff;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 10px 0;
+      z-index: 1200;
+      border-bottom: 1px solid #333;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    body.light-mode nav {
+      background: #eee;
+      border-color: #ccc;
+    }
+    nav a {
+      font-weight: bold;
+      font-size: 16px;
+      color: #ccc;
+    }
+    body.light-mode nav a {
+      color: #444;
+    }
+    nav a:hover {
+      color: #1e90ff;
+    }
+    .tema-toggle img {
+      width: 100%;
+      filter: brightness(70%);
+      transition: filter 0.3s ease;
+    }
+    .tema-toggle img:hover {
+      filter: brightness(100%);
+    }
+    #canli-saat {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      font-size: 18px;
+      color: #32cd32;
+      user-select: none;
+      text-shadow: 0 0 5px #32cd32;
+      transition: color 0.4s ease;
+    }
+    body.light-mode #canli-saat {
+      color: #228B22; /* koyu yeşil */
+      text-shadow: 0 0 3px #228B22;
+    }
+    header {
+      margin-top: 60px;
+      text-align: center;
+      padding: 60px 20px 30px;
+      border-bottom: 1px solid #333;
+      transition: border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+      animation-delay: 0.3s;
+    }
+    body.light-mode header {
+      border-bottom: 1px solid #ccc;
+    }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 18px;
+      color: #aaa;
+      font-style: italic;
+      transition: color 0.4s ease;
+    }
+    body.light-mode header p {
+      color: #555;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: 40px auto;
+      border-bottom: 1px solid #222;
+      transition: border-color 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s forwards;
+    }
+    body.light-mode section {
+      border-bottom: 1px solid #ccc;
+    }
+    section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      border-left: 4px solid #555;
+      padding-left: 10px;
+      transition: border-color 0.4s ease, color 0.4s ease;
+    }
+    body.light-mode section h2 {
+      border-left: 4px solid #888;
+      color: #222;
+    }
+    section p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ccc;
+      transition: color 0.4s ease;
+    }
+    body.light-mode section p {
+      color: #333;
+    }
+    .foto-galeri {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 30px;
+    }
+    .foto-galeri img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border: 1px solid #333;
+      transition: border-color 0.4s ease, transform 0.3s ease;
+      cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+    body.light-mode .foto-galeri img {
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .foto-galeri img:hover {
+      transform: scale(1.05);
+      border-color: #1e90ff;
+      box-shadow: 0 6px 12px rgba(30,144,255,0.6);
+    }
+    .foto-galeri figcaption {
+      margin-top: 8px;
+      font-size: 16px;
+      color: #999;
+      font-style: italic;
+      transition: color 0.4s ease;
+    }
+    body.light-mode .foto-galeri figcaption {
+      color: #666;
+    }
+    .yetkinlikler {
+      max-width: 800px;
+      margin: auto;
+    }
+    .yetkinlik {
+      margin-bottom: 20px;
+    }
+    .yetkinlik-label {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 22px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.6);
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1e90ff, #00c6ff);
+      width: 0%;
+      border-radius: 8px 0 0 8px;
+      transition: width 1.5s ease-in-out;
+    }
+    .blog-listesi {
+      max-width: 900px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+    @media(max-width:700px) {
+      .blog-listesi {
+        grid-template-columns: 1fr;
+      }
+    }
+    .blog-item {
+      background: #111;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    body.light-mode .blog-item {
+      background: #f2f2f2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: #111;
+    }
+    .blog-item:hover {
+      background: #1e90ff;
+      color: white;
+      box-shadow: 0 6px 20px rgba(30,144,255,0.7);
+      transform: translateY(-6px);
+      transition: all 0.3s ease;
+    }
+    .blog-item h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .blog-item p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .iletisim {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      padding-top: 10px;
+      flex-wrap: wrap;
+    }
+    .iletisim a {
+      text-decoration: none;
+      color: #ccc;
+      font-size: 16px;
+      transition: color 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    body.light-mode .iletisim a {
+      color: #444;
+    }
+    .iletisim a:hover {
+      color: #1e90ff;
+      transform: scale(1.1);
+    }
+    .iletisim img {
+      width: 24px;
+      vertical-align: middle;
+      margin-right: 8px;
+      filter: brightness(80%);
+      transition: filter 0.3s ease;
+    }
+    body.light-mode .iletisim img {
+      filter: brightness(40%);
+    }
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 14px;
+      color: #666;
+      border-top: 1px solid #222;
+      transition: color 0.4s ease, border-color 0.4s ease;
+    }
+    body.light-mode footer {
+      color: #999;
+      border-top: 1px solid #ccc;
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hakkimda">Hakkımda</a>
+    <a href="#fotograflar">Fotoğraflarım</a>
+    <a href="#yetkinlikler">Yetkinlikler</a>
+    <a href="#blog">Blog & Yazılar</a>
+    <a href="#doviz">Döviz</a>
+    <a href="#iletisim">İletişim</a>
+    <a href="#" onclick="dilDegistir();return false" id="dil-btn" title="Dil Değiştir">EN</a>
+  </nav>
+
+  <!-- Sol üstte gece/gündüz ikonu -->
+  <div id="tema-container" style="position: fixed; top: 15px; left: 15px; z-index: 1300; cursor: pointer; width: 24px; height: 24px;" onclick="temaDegistir()" title="Gece/Gündüz Modu">
+    <img id="tema-icon" src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="Gece/Gündüz İkon" style="width: 100%; height: 100%; filter: brightness(70%); transition: filter 0.3s ease;" />
+  </div>
+
+  <!-- Sağ üstte canlı saat -->
+  <div id="canli-saat" aria-label="Canlı saat" style="position: fixed; top: 15px; right: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 18px; color: #32cd32; user-select: none; text-shadow: 0 0 5px #32cd32; z-index: 1300;"></div>
+
+  <header>
+    <h1 id="baslik">Emir Pöğe</h1>
+    <p id="slogan">“Sessizliğin içindeki kodları duyanlardanım.”</p>
+  </header>
+
+  <section id="hakkimda">
+    <h2 id="hakkimda-baslik">Hakkımda</h2>
+    <p id="hakkimda-p">
+      Kodlar arasında kaybolmuş bir yolcuyum. Hayatın anlamını satırlarda arayanlardanım.  
+      Sessizlikte yazılan kelimeler bazen en yüksek sesle konuşur.
+    </p>
+  </section>
+
+  <section id="fotograflar">
+    <h2 id="fotograflar-baslik">Fotoğraflarım</h2>
+    <div class="foto-galeri">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=800&q=80" alt="Kod Yazmak" />
+        <figcaption>Satırların arasına sustuğum her şey sığar.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80" alt="Terminal" />
+        <figcaption>Hayat da bazen ‘command not found’ verir.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Gece Çalışma" />
+        <figcaption>Uykusuzlukta bile üretmenin huzuru var.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="yetkinlikler">
+    <h2>Yetkinlikler</h2>
+    <div class="yetkinlikler">
+      <div class="yetkinlik">
+        <div class="yetkinlik-label">JavaScript</div>
+        <div class="progress-bar"><div class="progress-fill" data-yuzde="85"></div></div>
+      </div>
+      <div class="yetkinlik">
+        <div class="yetkinlik-label">Python</div>
+        <div class="progress-bar"><div class="progress-fill" data-yuzde="80"></div></div>
+      </div>
+      <div class="yetkinlik">
+        <div class="yetkinlik-label">HTML & CSS</div>
+        <div class="progress-bar"><div class="progress-fill" data-yuzde="90"></div></div>
+      </div>
+      <div class="yetkinlik">
+        <div class="yetkinlik-label">React</div>
+        <div class="progress-bar"><div class="progress-fill" data-yuzde="75"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog">
+    <h2>Blog & Yazılar</h2>
+    <div class="blog-listesi" id="blog-listesi"></div>
+  </section>
+
+  <section id="doviz" aria-live="polite" aria-atomic="true">
+    <h3>Döviz Kurları (TRY bazında)</h3>
+    <ul id="kur-listesi">
+      <li>Yükleniyor...</li>
+    </ul>
+  </section>
+
+  <section id="iletisim">
+    <h2>İletişim</h2>
+    <div class="iletisim">
+      <a href="https://instagram.com/9emir.pg" target="_blank" rel="noopener">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" />9emir.pg
+      </a>
+      <a href="tel:05072140056">
+        <img src="https://cdn-icons-png.flaticon.com/512/455/455705.png" alt="Telefon" />0507 214 00 56
+      </a>
+    </div>
+  </section>
+
+  <!-- İletişim Formu -->
+  <section id="iletisim-form" style="max-width: 400px; margin: 20px auto 60px; padding: 10px; border: 1px solid #444; border-radius: 8px; background-color: #111; color: #ccc; font-size: 14px;">
+    <h3 style="text-align:center; margin-bottom: 12px;">İletişim Formu</h3>
+    <form onsubmit="formGonder(event)" aria-label="İletişim formu">
+      <label for="isim" style="display:block; margin-bottom: 6px;">İsim</label>
+      <input type="text" id="isim" name="isim" required style="width: 100%; padding: 6px; margin-bottom: 12px; border-radius: 4px; border: none;"/>
+      
+      <label for="email" style="display:block; margin-bottom: 6px;">E-posta</label>
+      <input type="email" id="email" name="email" required style="width: 100%; padding: 6px; margin-bottom: 12px; border-radius: 4px; border: none;"/>
+      
+      <label for="mesaj" style="display:block; margin-bottom: 6px;">Mesaj</label>
+      <textarea id="mesaj" name="mesaj" required rows="3" style="width: 100%; padding: 6px; border-radius: 4px; border: none; resize: vertical;"></textarea>
+      
+      <button type="submit" style="width: 100%; padding: 8px; background-color: #1e90ff; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Gönder</button>
+    </form>
+    <p id="form-mesaj" role="alert" style="margin-top: 10px; text-align:center; font-weight: bold;"></p>
+  </section>
+
+  <footer>
+    © Tüm hakları saklıdır - Emir Pöğe
+  </footer>
+
+  <script>
+    function guncelleSaat() {
+      const now = new Date();
+      let saat = now.getHours().toString().padStart(2, '0');
+      let dakika = now.getMinutes().toString().padStart(2, '0');
+      let saniye = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById('canli-saat').textContent = ${saat}:${dakika}:${saniye};
+    }
+    setInterval(guncelleSaat, 1000);
+    guncelleSaat();
+
+    const temaIcon = document.getElementById('tema-icon');
+    function temaDegistir() {
+      document.body.classList.toggle('light-mode');
+      if (document.body.classList.contains('light-mode')) {
+        temaIcon.src = 'https://cdn-icons-png.flaticon.com/512/869/869869.png'; // Güneş simgesi
+        temaIcon.alt = 'Gündüz modu';
+      } else {
+        temaIcon.src = 'https://cdn-icons-png.flaticon.com/512/3750/3750681.png'; // Ay simgesi
+        temaIcon.alt = 'Gece modu';
+      }
+    }
+    // Başlangıçta saat dilimine göre tema ayarı
+    (function baslangicTema() {
+      const hour = new Date().getHours();
+      if (hour >= 6 && hour < 18) {
+        document.body.classList.add('light-mode');
+        temaIcon.src = 'https://cdn-icons-png.flaticon.com/512/869/869869.png';
+        temaIcon.alt = 'Gündüz modu';
+      } else {
+        temaIcon.src = 'https://cdn-icons-png.flaticon.com/512/3750/3750681.png';
+        temaIcon.alt = 'Gece modu';
+      }
+    })();
+
+    const blogYazilari = [
+      { baslik: "Kod Yazarken Verimliliği Artırmanın 5 Yolu", ozet: "Kod yazarken dikkatinizi artırmak ve daha hızlı ilerlemek için kullanabileceğiniz pratik yöntemler." },
+      { baslik: "JavaScript'te Asenkron Programlama Temelleri", ozet: "Promise, async/await gibi kavramları anlaşılır şekilde anlatan bir rehber." },
+      { baslik: "Python ile Veri Analizi: Başlangıç Rehberi", ozet: "Python kullanarak veri analizi yapmak isteyenler için temel adımlar." },
+      { baslik: "CSS Grid ile Modern Layout Tasarımları", ozet: "CSS Grid sistemi ile esnek ve duyarlı tasarımlar oluşturmanın püf noktaları." }
+    ];
+
+    function blogYazilariYukle() {
+      const blogListesi = document.getElementById('blog-listesi');
+      blogListesi.innerHTML = '';
+      blogYazilari.forEach(yazi => {
+        const div = document.createElement('div');
+        div.className = 'blog-item';
+        div.innerHTML = <h3>${yazi.baslik}</h3><p>${yazi.ozet}</p>;
+        blogListesi.appendChild(div);
+      });
+    }
+    window.addEventListener('load', () => {
+      blogYazilariYukle();
+      dovizGetir();
+      yetkinlikAnimasyon();
+    });
+
+    async function dovizGetir() {
+      const kurListesi = document.getElementById('kur-listesi');
+      kurListesi.innerHTML = '<li>Yükleniyor...</li>';
+      try {
+        const response = await fetch('https://open.er-api.com/v6/latest/TRY');
+        const data = await response.json();
+        if (data.result === "success") {
+          const rates = data.rates;
+          const kurAdlari = ["USD", "EUR", "GBP", "JPY", "CHF", "AUD"];
+          kurListesi.innerHTML = '';
+          kurAdlari.forEach(kur => {
+            if (rates[kur]) {
+              const li = document.createElement('li');
+              li.innerHTML = <strong>${kur}:</strong> ${rates[kur].toFixed(4)};
+              kurListesi.appendChild(li);
+            }
+          });
+        } else {
+          kurListesi.innerHTML = '<li>Döviz bilgileri alınamadı.</li>';
+        }
+      } catch (error) {
+        kurListesi.innerHTML = '<li>Bağlantı hatası.</li>';
+      }
+    }
+
+    function yetkinlikAnimasyon() {
+      const barlar = document.querySelectorAll('.progress-fill');
+      barlar.forEach(bar => {
+        const yuzde = bar.getAttribute('data-yuzde');
+        setTimeout(() => {
+          bar.style.width = yuzde + '%';
+        }, 300);
+      });
+    }
+
+    // Dil değiştirici
+    const dilBtn = document.getElementById('dil-btn');
+    let dil = 'tr';
+    function dilDegistir() {
+      if (dil === 'tr') {
+        dil = 'en';
+        dilBtn.textContent = 'TR';
+        document.getElementById('baslik').textContent = 'Emir Pöğe';
+        document.getElementById('slogan').textContent = '“I am one who hears the codes inside the silence.”';
+        document.getElementById('hakkimda-baslik').textContent = 'About Me';
+        document.getElementById('hakkimda-p').textContent = 'I am a traveler lost among codes. I seek the meaning of life in the lines. Words written in silence sometimes speak the loudest.';
+        document.getElementById('fotograflar-baslik').textContent = 'My Photos';
+        const figcaptions = document.querySelectorAll('#fotograflar figcaption');
+        figcaptions[0].textContent = 'Everything I hold silent fits between the lines.';
+        figcaptions[1].textContent = 'Sometimes life gives a "command not found".';
+        figcaptions[2].textContent = 'There is peace in creating even without sleep.';
+        document.getElementById('yetkinlikler').querySelector('h2').textContent = 'Skills';
+        document.getElementById('blog').querySelector('h2').textContent = 'Blog & Articles';
+        document.getElementById('doviz').querySelector('h3').textContent = 'Exchange Rates (Based on TRY)';
+        document.getElementById('iletisim').querySelector('h2').textContent = 'Contact';
+
+        blogYazilari[0].baslik = "5 Ways to Improve Coding Efficiency";
+        blogYazilari[0].ozet = "Practical ways to increase your focus and speed while coding.";
+        blogYazilari[1].baslik = "Basics of Asynchronous Programming in JavaScript";
+        blogYazilari[1].ozet = "A guide explaining concepts like Promise, async/await.";
+        blogYazilari[2].baslik = "Data Analysis with Python: Beginner's Guide";
+        blogYazilari[2].ozet = "Basic steps for those who want to analyze data using Python.";
+        blogYazilari[3].baslik = "Modern Layout Designs with CSS Grid";
+        blogYazilari[3].ozet = "Tips for creating flexible and responsive designs with CSS Grid.";
+        blogYazilariYukle();
+      } else {
+        dil = 'tr';
+        dilBtn.textContent = 'EN';
+        document.getElementById('baslik').textContent = 'Emir Pöğe';
+        document.getElementById('slogan').textContent = '“Sessizliğin içindeki kodları duyanlardanım.”';
+        document.getElementById('hakkimda-baslik').textContent = 'Hakkımda';
+        document.getElementById('hakkimda-p').textContent = 'Kodlar arasında kaybolmuş bir yolcuyum. Hayatın anlamını satırlarda arayanlardanım.  Sessizlikte yazılan kelimeler bazen en yüksek sesle konuşur.';
+        document.getElementById('fotograflar-baslik').textContent = 'Fotoğraflarım';
+        const figcaptions = document.querySelectorAll('#fotograflar figcaption');
+        figcaptions[0].textContent = 'Satırların arasına sustuğum her şey sığar.';
+        figcaptions[1].textContent = 'Hayat da bazen ‘command not found’ verir.';
+        figcaptions[2].textContent = 'Uykusuzlukta bile üretmenin huzuru var.';
+        document.getElementById('yetkinlikler').querySelector('h2').textContent = 'Yetkinlikler';
+        document.getElementById('blog').querySelector('h2').textContent = 'Blog & Yazılar';
+        document.getElementById('doviz').querySelector('h3').textContent = 'Döviz
